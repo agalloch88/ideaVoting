@@ -2,8 +2,6 @@ import type { AWS } from '@serverless/typescript';
 
 import functions from './serverless/functions';
 import DynamoResources from './serverless/dynamodb';
-import AssetsBucketAndCloudfront from './serverless/AssetsBucketAndCloudfront';
-import CognitoResources from './serverless/cognitoResources';
 
 const serverlessConfiguration: AWS = {
   service: 'ideaVoting',
