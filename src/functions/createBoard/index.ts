@@ -1,6 +1,7 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { formatJSONResponse } from '@libs/APIResponses';
 import Dynamo from '@libs/Dynamo';
+import { CreateBoardBody } from 'src/types/apiTypes';
 
 export const handler = async (event: APIGatewayProxyEvent) => {
   try {
@@ -13,7 +14,9 @@ export const handler = async (event: APIGatewayProxyEvent) => {
       return validationError;
     }
 
-    const {} = body;
+    const { name, description, isPublic } = body as CreateBoardBody;
+
+    const data: BoardRecord = {}
 
     return formatJSONResponse({ body: { message: 'flight successfully booked' } });
   } catch (error) {
