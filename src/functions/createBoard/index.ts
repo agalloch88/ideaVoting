@@ -46,6 +46,3 @@ const validateBody = (body: Record<string, any>) => {
   }
   return;
 };
-function uuid(): string {
-  throw new Error('Function not implemented.');
-}
