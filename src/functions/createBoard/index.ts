@@ -13,13 +13,15 @@ export const handler = async (event: APIGatewayProxyEvent) => {
       return validationError;
     }
 
+    const {} = body;
+
     return formatJSONResponse({ body: { message: 'flight successfully booked' } });
   } catch (error) {
     return formatJSONResponse({ statusCode: 500, body: error.message });
   }
 };
 
-const validateBody = (body: Record<string, any?>) => {
+const validateBody = (body: Record<string, any>) => {
   if (!body.name) {
     return formatJSONResponse({
       body: { message: 'name is required on body', statusCode: 400 },
