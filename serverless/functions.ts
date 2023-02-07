@@ -1,17 +1,17 @@
 import { AWS } from '@serverless/typescript';
 
-interface Authorizer {
-  name: string;
-  type: string;
-  arn: {
-    'Fn::GetAtt': string[];
-  };
-}
-const authorizer: Authorizer = {
-  name: 'authorizer',
-  type: 'COGNITO_USER_POOLS',
-  arn: { 'Fn::GetAtt': ['CognitoUserPool', 'Arn'] },
-};
+// interface Authorizer {
+//   name: string;
+//   type: string;
+//   arn: {
+//     'Fn::GetAtt': string[];
+//   };
+// }
+// const authorizer: Authorizer = {
+//   name: 'authorizer',
+//   type: 'COGNITO_USER_POOLS',
+//   arn: { 'Fn::GetAtt': ['CognitoUserPool', 'Arn'] },
+// };
 
 const functions: AWS['functions'] = {
   createBoard: {
