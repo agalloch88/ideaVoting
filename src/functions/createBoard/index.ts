@@ -3,6 +3,7 @@ import { formatJSONResponse } from '@libs/APIResponses';
 import Dynamo from '@libs/Dynamo';
 import { CreateBoardBody } from 'src/types/apiTypes';
 import { BoardRecord } from 'src/types/dynamo';
+import { v4 as uuid } from 'uuid';
 
 export const handler = async (event: APIGatewayProxyEvent) => {
   try {
@@ -15,10 +16,17 @@ export const handler = async (event: APIGatewayProxyEvent) => {
       return validationError;
     }
 
-    const { name, description, isPublic } = body as CreateBoardBody;
+    const { name, description, isPublic = false } = body as CreateBoardBody;
 
     const data: BoardRecord = {
-      
+      id: uuid(),
+      pk: 'board',
+      sk: Date.now().toString(),
+      ownerId: getUserId(event),
+      boardName: name,
+      description: description,
+      isPublic: isPublic,
+      date: Date.now(),
     }
 
     return formatJSONResponse({ body: { message: 'flight successfully booked' } });
@@ -35,3 +43,7 @@ const validateBody = (body: Record<string, any>) => {
   }
   return;
 };
+function uuid(): string {
+  throw new Error('Function not implemented.');
+}
+
