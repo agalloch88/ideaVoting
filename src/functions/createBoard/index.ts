@@ -4,6 +4,7 @@ import Dynamo from '@libs/Dynamo';
 import { CreateBoardBody } from 'src/types/apiTypes';
 import { BoardRecord } from 'src/types/dynamo';
 import { v4 as uuid } from 'uuid';
+import { getUserId } from '../../libs/APIGateway';
 
 export const handler = async (event: APIGatewayProxyEvent) => {
   try {
@@ -27,9 +28,11 @@ export const handler = async (event: APIGatewayProxyEvent) => {
       description: description,
       isPublic: isPublic,
       date: Date.now(),
-    }
+    };
 
-    return formatJSONResponse({ body: { message: 'flight successfully booked' } });
+    await Dynamo.write({ data, tableName });
+
+    return formatJSONResponse({ body: { message: 'board created', id: data.id } });
   } catch (error) {
     return formatJSONResponse({ statusCode: 500, body: error.message });
   }
@@ -46,4 +49,3 @@ const validateBody = (body: Record<string, any>) => {
 function uuid(): string {
   throw new Error('Function not implemented.');
 }
-
