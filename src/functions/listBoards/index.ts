@@ -9,14 +9,16 @@ import { getUserId } from '../../libs/APIGateway';
 export const handler = async (event: APIGatewayProxyEvent) => {
   try {
     const tableName = process.env.singleTable;
-
-    const boards = await Dynamo.query({
+    // query dynamo for all boards
+    const boards = await Dynamo.query<BoardRecord>({
       tableName,
       index: 'index1',
       pkKey: 'pk',
       pkValue: 'board',
       limit: 10,
     });
+    // filter out private boards using the isPublic property
+    const responseData = boards.map(({pk, sk, ...rest}) => rest).filter((board) => board.isPublic);
 
     return formatJSONResponse({ body: { message: 'board created', id: data.id } });
   } catch (error) {
