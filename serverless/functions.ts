@@ -30,7 +30,7 @@ const functions: AWS['functions'] = {
     events: [
       {
         http: {
-          method: 'post',
+          method: 'get',
           path: '/boards',
         },
       },
