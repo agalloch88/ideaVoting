@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { formatJSONResponse } from '@libs/APIResponses';
 import Dynamo from '@libs/Dynamo';
-import { CreateBoardBody } from 'src/types/apiTypes';
+import { CreateIdeaBody } from 'src/types/apiTypes';
 import { BoardRecord } from 'src/types/dynamo';
 import { v4 as uuid } from 'uuid';
 import { getUserId } from '../../libs/APIGateway';
@@ -17,9 +17,9 @@ export const handler = async (event: APIGatewayProxyEvent) => {
       return validationError;
     }
 
-    const { } = body as CreateIdeaBody;
+    const { title, description, boardId } = body as CreateIdeaBody;
 
-    const data: BoardRecord = {
+    const data: IdeaRecord = {
       id: uuid(),
       pk: 'board',
       sk: Date.now().toString(),

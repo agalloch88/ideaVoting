@@ -8,3 +8,13 @@ export interface BoardRecord {
   isPublic?: boolean;
   date: number;
 }
+
+export interface IdeaRecord {
+  id: string;
+  pk: string;
+  sk: string;
+  boardId: string;
+  ideaTitle: string;
+  description?: string;
+  date: number;
+}
