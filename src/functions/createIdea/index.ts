@@ -39,9 +39,11 @@ export const handler = async (event: APIGatewayProxyEvent) => {
 };
 
 const validateBody = (body: Record<string, any>) => {
-  if (!body.name) {
+  const { title, boardId } = body;
+
+  if (!title || !boardId) {
     return formatJSONResponse({
-      body: { message: 'name is required on body', statusCode: 400 },
+      body: { message: '"title" and "boardId" are required on body', statusCode: 400 },
     });
   }
   return;
