@@ -2,9 +2,8 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 import { formatJSONResponse } from '@libs/APIResponses';
 import Dynamo from '@libs/Dynamo';
 import { CreateIdeaBody } from 'src/types/apiTypes';
-import { BoardRecord } from 'src/types/dynamo';
+import { IdeaRecord } from 'src/types/dynamo';
 import { v4 as uuid } from 'uuid';
-import { getUserId } from '../../libs/APIGateway';
 
 export const handler = async (event: APIGatewayProxyEvent) => {
   try {
@@ -21,18 +20,17 @@ export const handler = async (event: APIGatewayProxyEvent) => {
 
     const data: IdeaRecord = {
       id: uuid(),
-      pk: 'board',
+      pk: `idea-${boardId}`,
       sk: Date.now().toString(),
-      ownerId: getUserId(event),
-      boardName: name,
-      description: description,
-      isPublic: isPublic,
+      boardId,
+      ideaTitle: title,
+      description,
       date: Date.now(),
     };
 
     await Dynamo.write({ data, tableName });
 
-    return formatJSONResponse({ body: { message: 'board created', id: data.id } });
+    return formatJSONResponse({ body: { message: 'idea created', id: data.id } });
   } catch (error) {
     return formatJSONResponse({ statusCode: 500, body: error.message });
   }
