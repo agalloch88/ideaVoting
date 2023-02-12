@@ -13,8 +13,15 @@ export const handler = async (event: APIGatewayProxyEvent) => {
       tableName,
       pkValue: boardId,
     });
-    // filter out private boards using the isPublic property
-    const responseData = boards.map(({pk, sk, ...rest}) => rest).filter((board) => board.isPublic);
+
+    if (!board.id) {
+      return formatJSONResponse({
+        statusCode: 400,
+        body: { message: 'no board found with that id' },
+      });
+    }
+
+    const { pk, sk, ...responseData } = board;
 
     return formatJSONResponse({ body: responseData });
   } catch (error) {
