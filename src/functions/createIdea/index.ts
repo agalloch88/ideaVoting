@@ -17,7 +17,7 @@ export const handler = async (event: APIGatewayProxyEvent) => {
       return validationError;
     }
 
-    const { name, description, isPublic = false } = body as CreateBoardBody;
+    const { } = body as CreateIdeaBody;
 
     const data: BoardRecord = {
       id: uuid(),
