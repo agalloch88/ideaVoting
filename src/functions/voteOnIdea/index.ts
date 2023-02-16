@@ -30,14 +30,11 @@ export const handler = async (event: APIGatewayProxyEvent) => {
       });
     }
 
-    const data: IdeaRecord = {
+    const data: VoteRecord = {
       id: uuid(),
       pk: `idea-${boardId}`,
       sk: Date.now().toString(),
-      boardId,
-      ideaTitle: title,
-      description,
-      date: Date.now(),
+      
     };
 
     await Dynamo.write({ data, tableName });
