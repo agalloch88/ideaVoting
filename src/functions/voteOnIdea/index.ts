@@ -4,12 +4,31 @@ import Dynamo from '@libs/Dynamo';
 import { CreateIdeaBody } from 'src/types/apiTypes';
 import { IdeaRecord } from 'src/types/dynamo';
 import { v4 as uuid } from 'uuid';
+import { getUserId } from '../../libs/APIGateway';
 
 export const handler = async (event: APIGatewayProxyEvent) => {
   try {
     const tableName = process.env.singleTable;
 
     const { ideaId } = event.pathParameters;
+
+    const userId = getUserId(event);
+
+    const existingVote = await Dynamo.query({
+      tableName,
+      index: 'index1',
+      pkKey: 'pk',
+      pkValue: ideaId,
+      skKey: 'sk',
+      skValue: userId,
+    });
+
+    if (existingVote.length !== 0) {
+      return formatJSONResponse({
+        statusCode: 400,
+        body: { message: 'You have already voted on this idea' },
+      });
+    }
 
     const data: IdeaRecord = {
       id: uuid(),
