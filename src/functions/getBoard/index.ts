@@ -30,7 +30,14 @@ export const handler = async (event: APIGatewayProxyEvent) => {
       pkKey: 'pk',
     });
 
-    const ideaDataArray = ideas.map(({ pk, sk, boardId, ...ideaData }) => ideaData);
+    const ideaDataArray = ideas.map(({ pk, sk, boardId, ...ideaData }) => {
+      const votes = await Dynamo.query<VoteRecord>({
+        tableName,
+        index: 'index1',
+        pkValue: `vote-${ideaData.id}`,
+        pkKey: 'pk',
+      })
+    });
 
     return formatJSONResponse({ body: { ...responseData, ideas: ideaDataArray } });
   } catch (error) {
