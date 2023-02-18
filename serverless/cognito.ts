@@ -1,4 +1,6 @@
-const cognitoResources = {
+import { AWS } from '@serverless/typescript';
+
+const cognitoResources: AWS['resources']['Resources'] = {
   CognitoUserPool: {
     Type: 'AWS::Cognito::UserPool',
     Properties: {
