@@ -68,6 +68,14 @@ const serverlessConfiguration: AWS = {
           Name: 'DynamoTableName',
         },
       },
+      CognitoUserPoolId: {
+        Value: {
+          Ref: 'CognitoUserPool',
+        },
+        Export: {
+          Name: '${sls:stage}-${self:service}-user-pool-id',
+        },
+      },
     },
   },
 };
